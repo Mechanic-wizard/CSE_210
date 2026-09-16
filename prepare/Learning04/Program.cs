@@ -66,6 +66,7 @@
 //   5
 //   7
 
+
 using System;
 using System.Collections.Generic;
 
@@ -73,33 +74,44 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Enter a list of numbers, type 0 when finished.");
         List<int> numbers = new List<int>();
-        int number = 0;
-        do
+        
+        int userNumber = -1;
+        while (userNumber != 0)
         {
-            Console.Write("Enter number: ");
-            number = Convert.ToInt32(Console.ReadLine());
-            numbers.Add(number);
-        } while (number != 0);
-        int sum = 0;
-        foreach (int num in numbers)
-        {
-            sum += num;
-        }
-        double average = (double)sum / numbers.Count;
-        int largest = numbers[0];
-        foreach (int num in numbers)
-        {
-            if (num > largest)
+            Console.Write("Enter a number (0 to quit): ");
+            
+            string userResponse = Console.ReadLine();
+            userNumber = int.Parse(userResponse);
+            
+            if (userNumber != 0)
             {
-                largest = num;
+                numbers.Add(userNumber);
             }
         }
-        Console.WriteLine($"The sum is: {sum}"); 
-        Console.WriteLine($"The average is: {average}"); 
-        Console.WriteLine($"The largest number is: {largest}"); 
+
+        int sum = 0;
+        foreach (int number in numbers)
+        {
+            sum += number;
+        }
+
+        Console.WriteLine($"The sum is: {sum}");
+
+        float average = ((float)sum) / numbers.Count;
+        Console.WriteLine($"The average is: {average}");
+
+        
+        int max = numbers[0];
+
+        foreach (int number in numbers)
+        {
+            if (number > max)
+            {
+                max = number;
+            }
+        }
+
+        Console.WriteLine($"The max is: {max}");
     }
 }
-
-  
