@@ -77,31 +77,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
-namespace Prep_3
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        Random random = new Random();
+        int magic = random.Next(1, 101);
+
+        int guess = -1;
+
+        while (guess != magic)
         {
-            Console.Write("What is the magic number? ");
-            int magic = Convert.ToInt32(random.Next(1, 101));
             Console.Write("What is your guess? ");
-            int guess = Convert.ToInt32(Console.ReadLine());
-            while (guess != magic)
+            guess = Convert.ToInt32(Console.ReadLine());
+
+            if (guess < magic)
             {
-                if (guess < magic)
-                {
-                    Console.WriteLine("Higher");
-                }
-                else
-                {
-                    Console.WriteLine("Lower");
-                }
-                Console.Write("What is your guess? ");
-                guess = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Higher");
             }
-            Console.WriteLine("You guessed it!");
+            else if (guess > magic)
+            {
+                Console.WriteLine("Lower");
+            }
+            else
+            {
+                Console.WriteLine("You guessed it!");
+            }
         }
     }
-}   
+}
