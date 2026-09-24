@@ -1,0 +1,24 @@
++------------------+        uses        +------------------+
+|     Program      |------------------->|     Journal      |
++------------------+                    +------------------+
+| - _journal       |                    | - _entries: List |
+| - _promptGen     |                    +------------------+
+| + Main()         |                    | + AddEntry()     |
+| + DisplayMenu()  |                    | + DisplayAll()   |
+| + WriteEntry()   |                    | + SaveToFile()   |
+| + Display()      |                    | + LoadFromFile() |
+| + Save()         |                    +------------------+
+| + Load()         |                             |
++------------------+                             | contains
+        |                                        | 0..*
+        | uses                                   v
+        v                              +------------------+
++------------------+                   |      Entry       |
+| PromptGenerator  |                   +------------------+
++------------------+                   | - _date: string  |
+| - _prompts: List |                   | - _prompt: string|
+| + GetRandomPrompt|                   | - _response: str |
++------------------+                   +------------------+
+                                       | + ToString()     |
+                                       | + Display()      |
+                                       +------------------+
