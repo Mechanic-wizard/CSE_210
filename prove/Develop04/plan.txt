@@ -1,0 +1,229 @@
+CSE 210: Programming with Classes
+Inheritance - Design Activity
+Mindfulness Program Design
+
+Note: This is a sample design based on the standard CSE 210 Mindfulness program.
+Adapt class names, methods, and attributes to match your team’s discussion.
+
+
+1. CLASSES AND RESPONSIBILITIES
+------------------------------------------------------------
+
+Class: Activity
+  Responsibility:
+    Base class. Stores common activity data (name, description, duration)
+    and provides shared behaviors like starting/ending messages, spinner,
+    and countdown.
+
+Class: BreathingActivity
+  Responsibility:
+    Guides the user through breathing in and out for the chosen duration.
+
+Class: ReflectingActivity
+  Responsibility:
+    Shows a random prompt and random reflection questions.
+
+Class: ListingActivity
+  Responsibility:
+    Shows a random prompt and lets the user list items until time runs out.
+
+Class: Program
+  Responsibility:
+    Runs the main menu, gets user choice, creates activity objects, and
+    calls their Run() methods.
+
+
+2. CLASS DIAGRAM (ASCII)
+------------------------------------------------------------
+
+Activity (base class)
+  Attributes:
+    - _name : string
+    - _description : string
+    - _duration : int
+  Methods:
+    + Activity(string name, string description)
+    + GetName() : string
+    + GetDescription() : string
+    + GetDuration() : int
+    + SetDuration(int duration) : void
+    + DisplayStartingMessage() : void
+    + DisplayEndingMessage() : void
+    + ShowSpinner(int seconds) : void
+    + ShowCountdown(int seconds) : void
+    + abstract Run() : void
+
+    ^
+    |
+    +-- BreathingActivity
+    |     Methods:
+    |       + BreathingActivity()
+    |       + override Run() : void
+    |
+    +-- ReflectingActivity
+    |     Attributes:
+    |       - _prompts : List<string>
+    |       - _questions : List<string>
+    |       - _random : Random
+    |     Methods:
+    |       + ReflectingActivity()
+    |       + override Run() : void
+    |       + GetRandomPrompt() : string
+    |       + GetRandomQuestion() : string
+    |
+    +-- ListingActivity
+          Attributes:
+            - _prompts : List<string>
+            - _random : Random
+            - _count : int
+          Methods:
+            + ListingActivity()
+            + override Run() : void
+            + GetRandomPrompt() : string
+            + GetListFromUser() : void
+
+Program
+  Methods:
+    + static Main(string[] args) : void
+    + static DisplayMenu() : void
+    + static GetUserChoice() : string
+
+
+3. CLASS DETAILS
+------------------------------------------------------------
+
+CLASS: Activity (Base Class)
+
+  Attributes:
+    _name        : string
+    _description : string
+    _duration    : int
+
+  Constructor:
+    Activity(string name, string description)
+      - Sets _name and _description.
+      - _duration starts at 0.
+
+  Methods:
+    GetName()                 -> returns _name
+    GetDescription()          -> returns _description
+    GetDuration()             -> returns _duration
+    SetDuration(int duration) -> sets _duration
+    DisplayStartingMessage()  -> prints welcome message and asks for duration
+    DisplayEndingMessage()    -> prints “Well done!” and shows duration
+    ShowSpinner(int seconds)  -> animates a spinner for the given seconds
+    ShowCountdown(int seconds)-> displays a countdown
+    abstract Run()            -> each derived class must implement its own logic
+
+
+CLASS: BreathingActivity : Activity
+
+  Constructor:
+    BreathingActivity()
+      - Calls base with name "Breathing Activity" and a description about
+        relaxing through breathing.
+
+  Methods:
+    override Run()
+      - Calls DisplayStartingMessage()
+      - Loops until duration expires:
+          “Breathe in…” + countdown/spinner
+          “Breathe out…” + countdown/spinner
+      - Calls DisplayEndingMessage()
+
+
+CLASS: ReflectingActivity : Activity
+
+  Attributes:
+    _prompts   : List<string>
+    _questions : List<string>
+    _random    : Random
+
+  Constructor:
+    ReflectingActivity()
+      - Calls base with name "Reflecting Activity" and initializes the
+        prompt/question lists.
+
+  Methods:
+    override Run()
+      - Shows a random prompt, then asks random questions for the duration.
+    GetRandomPrompt()   -> returns a random prompt from _prompts
+    GetRandomQuestion() -> returns a random question from _questions
+
+
+CLASS: ListingActivity : Activity
+
+  Attributes:
+    _prompts : List<string>
+    _random  : Random
+    _count   : int
+
+  Constructor:
+    ListingActivity()
+      - Calls base with name "Listing Activity" and initializes the prompt list.
+
+  Methods:
+    override Run()
+      - Shows a random prompt, lets the user list items until time runs out,
+        then shows how many items they listed.
+    GetRandomPrompt()   -> returns a random prompt
+    GetListFromUser()   -> reads user input until time expires and updates _count
+
+
+CLASS: Program
+
+  Methods:
+    static Main(string[] args)
+      - Main loop:
+          1. Display menu.
+          2. Get user choice.
+          3. Create the correct activity object.
+          4. Call Run() on it.
+          5. Repeat until user chooses Quit.
+
+    static DisplayMenu()
+      - Shows options: 1. Breathing, 2. Reflecting, 3. Listing, 4. Quit.
+
+    static GetUserChoice()
+      - Reads and returns the user’s choice.
+
+
+4. PROGRAM FLOW CHART (ASCII)
+------------------------------------------------------------
+
+Start Program
+  |
+  v
+Display Menu
+  |
+  v
+Get User Choice
+  |
+  +--> 1: Create BreathingActivity  -> Run() -> back to Menu
+  |
+  +--> 2: Create ReflectingActivity -> Run() -> back to Menu
+  |
+  +--> 3: Create ListingActivity    -> Run() -> back to Menu
+  |
+  +--> 4: End Program
+
+Inside each activity’s Run() method:
+  1. DisplayStartingMessage()
+  2. Get duration from user
+  3. Perform activity-specific logic
+     (breathing, reflecting, listing)
+  4. DisplayEndingMessage()
+
+
+5. HOW INHERITANCE IS USED
+------------------------------------------------------------
+
+- Activity is the base class that contains shared code.
+- BreathingActivity, ReflectingActivity, and ListingActivity inherit from
+  Activity.
+- Each derived class overrides Run() to provide its own behavior.
+- Common tasks like showing the spinner, starting message, and ending message
+  are written once in Activity and reused by all derived classes.
+
+This design follows the principles of inheritance, encapsulation, and
+polymorphism.
