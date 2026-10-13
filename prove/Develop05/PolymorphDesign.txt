@@ -1,0 +1,91 @@
+                         +----------------------+
+                         |        Goal          |  <<abstract>>
+                         +----------------------+
+                         | - _name: string      |
+                         | - _description: string|
+                         | - _points: int       |
+                         +----------------------+
+                         | + Goal(name, desc, points)
+                         | + GetName(): string
+                         | + GetDescription(): string
+                         | + GetPoints(): int
+                         | + GetDetailsString(): string
+                         | + GetStringRepresentation(): string
+                         | + RecordEvent(): int
+                         | + IsComplete(): bool
+                         +----------------------+
+                                    ^
+                                    |
+          +-------------------------+-------------------------+
+          |                         |                         |
++---------+---------+     +---------+---------+     +---------+---------+
+|    SimpleGoal     |     |    EternalGoal    |     |   ChecklistGoal   |
++-------------------+     +-------------------+     +-------------------+
+| - _isComplete:bool|     |                   |     | - _amountCompleted:int
++-------------------+     +-------------------+     | - _target:int     |
+| + SimpleGoal(...) |     | + EternalGoal(...)|     | - _bonus:int      |
+| + RecordEvent():int     | + RecordEvent():int     +-------------------+
+| + IsComplete():bool     | + IsComplete():bool     | + ChecklistGoal(...)
+| + GetDetailsString()    | + GetDetailsString()    | + RecordEvent():int
+| + GetStringRepresentation()                       | + IsComplete():bool
++-------------------+     +-------------------+     | + GetDetailsString()
+                                                    | + GetStringRepresentation()
+                                                    +-------------------+
+
+                         +----------------------+
+                         |     GoalManager      |
+                         +----------------------+
+                         | - _goals: List<Goal> |
+                         | - _score: int        |
+                         +----------------------+
+                         | + GoalManager()
+                         | + Start(): void
+                         | + DisplayPlayerInfo(): void
+                         | + ListGoalNames(): void
+                         | + ListGoalDetails(): void
+                         | + CreateGoal(): void
+                         | + RecordEvent(): void
+                         | + SaveGoals(): void
+                         | + LoadGoals(): void
+                         +----------------------+
+
+                         +----------------------+
+                         |       Program        |
+                         +----------------------+
+                         | + Main(): void       |
+                         +----------------------+
+
+
+
+                         Program.Main()
+   |
+   v
+GoalManager.Start()
+   |
+   +--> Display player score
+   |
+   +--> Show menu:
+   |      1. Create Goal
+   |      2. List Goals
+   |      3. Save Goals
+   |      4. Load Goals
+   |      5. Record Event
+   |      6. Quit
+   |
+   +--> Read user choice
+   |
+   +--> Switch:
+         1 -> CreateGoal()
+         2 -> ListGoalDetails()
+         3 -> SaveGoals()
+         4 -> LoadGoals()
+         5 -> RecordEvent()
+         6 -> Exit loop
+   |
+   +--> Repeat until Quit
+
+
+1500
+SimpleGoal:Run a Marathon|Run 26.2 miles|1000|False
+EternalGoal:Read Scriptures|Read daily|100
+ChecklistGoal:Attend Temple|Attend 10 times|50|500|10|3
