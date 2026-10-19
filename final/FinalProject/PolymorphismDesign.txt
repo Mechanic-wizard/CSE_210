@@ -1,0 +1,107 @@
+
+
+CLASSES AND RESPONSIBILITIES
+- Activity: Base class. Tracks date and length in minutes. Defines virtual distance, speed, and pace methods. Provides GetSummary().
+- Running: Derived from Activity. Tracks distance. Overrides distance calculation.
+- Cycling: Derived from Activity. Tracks speed. Overrides speed, distance, and pace calculations.
+- Swimming: Derived from Activity. Tracks number of laps. Overrides distance, speed, and pace calculations.
+- Program: Creates one activity of each type, puts them in one list, and calls GetSummary() on each.
+
+MEMBER VARIABLES - all private/protected as needed
+Activity:
+- _date : string
+- _minutes : int
+
+Running:
+- _distance : double
+
+Cycling:
+- _speed : double
+
+Swimming:
+- _laps : int
+
+METHODS
+Activity:
+- Activity(string date, int minutes)
+- string GetDate()
+- int GetMinutes()
+- virtual double GetDistance()
+- virtual double GetSpeed()   // (GetDistance() / GetMinutes()) * 60
+- virtual double GetPace()    // GetMinutes() / GetDistance()
+- string GetSummary()         // uses virtual methods above
+
+Running:
+- Running(string date, int minutes, double distance) : base(date, minutes)
+- override double GetDistance()  // returns _distance
+
+Cycling:
+- Cycling(string date, int minutes, double speed) : base(date, minutes)
+- override double GetSpeed()     // returns _speed
+- override double GetDistance()  // GetSpeed() * GetMinutes() / 60
+- override double GetPace()      // 60 / GetSpeed()
+
+Swimming:
+- Swimming(string date, int minutes, int laps) : base(date, minutes)
+- override double GetDistance()  // _laps * 50 / 1000 * 0.62 for miles
+- override double GetSpeed()     // (GetDistance() / GetMinutes()) * 60
+- override double GetPace()      // GetMinutes() / GetDistance()
+
+Program:
+- static void Main()
+
+CLASS DIAGRAM
+                +----------------------------+
+                |          Activity          |
+                +----------------------------+
+                | # _date : string           |
+                | # _minutes : int           |
+                +----------------------------+
+                | + GetDate() : string       |
+                | + GetMinutes() : int       |
+                | + virtual GetDistance()    |
+                | + virtual GetSpeed()       |
+                | + virtual GetPace()        |
+                | + GetSummary() : string    |
+                +------------+---------------+
+                             |
+        +--------------------+--------------------+
+        |                    |                    |
++-------v--------+  +--------v--------+  +--------v---------+
+|    Running     |  |     Cycling     |  |     Swimming     |
++----------------+  +-----------------+  +------------------+
+| - _distance    |  | - _speed        |  | - _laps          |
++----------------+  +-----------------+  +------------------+
+| + GetDistance()|  | + GetDistance() |  | + GetDistance()  |
+|   override     |  |   override      |  |   override       |
+|                |  | + GetSpeed()    |  | + GetSpeed()     |
+|                |  |   override      |  |   override       |
+|                |  | + GetPace()     |  | + GetPace()      |
+|                |  |   override      |  |   override       |
++----------------+  +-----------------+  +------------------+
+
+PROGRAM FLOW
+Main()
+1. Create Running activity: date, 30 minutes, 3.0 miles.
+2. Create Cycling activity: date, 45 minutes, 12.0 mph.
+3. Create Swimming activity: date, 40 minutes, 20 laps.
+4. Put all three activities in a List<Activity>.
+5. For each Activity in the list:
+   - Call and display GetSummary().
+6. End program.
+
+SUMMARY FORMAT EXAMPLE
+03 Nov 2022 Running (30 min): Distance 3.0 miles, Speed 6.0 mph, Pace: 10.0 min per mile
+
+MATH NOTES - using miles
+Distance for swimming = laps * 50 / 1000 * 0.62
+Speed = (distance / minutes) * 60
+Pace = minutes / distance
+Speed = 60 / pace
+Pace = 60 / speed
+
+DESIGN NOTES
+- Base Activity stores shared data and defines virtual calculation methods.
+- Derived classes override calculations for their specific activity type.
+- GetSummary() is defined in the base class and uses polymorphic method calls.
+- All member variables are private/protected; behavior is exposed through methods.

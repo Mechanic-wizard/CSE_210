@@ -1,0 +1,79 @@
+
+
+CLASSES AND RESPONSIBILITIES
+- Video: Tracks title, author, length in seconds, and a list of comments. Reports comment count.
+- Comment: Tracks the commenter's name and the comment text.
+- Program: Creates videos, adds comments, stores videos in a list, and displays all information.
+
+MEMBER VARIABLES - all private
+Video:
+- _title : string
+- _author : string
+- _lengthSeconds : int
+- _comments : List<Comment>
+
+Comment:
+- _commenterName : string
+- _text : string
+
+METHODS
+Video:
+- Video(string title, string author, int lengthSeconds)
+- string GetTitle()
+- string GetAuthor()
+- int GetLength()
+- void AddComment(Comment comment)
+- int GetCommentCount()
+- List<Comment> GetComments()
+
+Comment:
+- Comment(string commenterName, string text)
+- string GetCommenterName()
+- string GetText()
+
+Program:
+- static void Main()
+
+CLASS DIAGRAM
++-----------------------------+
+|            Video            |
++-----------------------------+
+| - _title : string           |
+| - _author : string          |
+| - _lengthSeconds : int      |
+| - _comments : List<Comment> |
++-----------------------------+
+| + Video(title, author, len) |
+| + GetTitle() : string       |
+| + GetAuthor() : string      |
+| + GetLength() : int         |
+| + AddComment(Comment)       |
+| + GetCommentCount() : int   |
+| + GetComments() : List      |
++--------------+--------------+
+               | 1..*
+               v
++-----------------------------+
+|           Comment           |
++-----------------------------+
+| - _commenterName : string   |
+| - _text : string            |
++-----------------------------+
+| + Comment(name, text)       |
+| + GetCommenterName() : str  |
+| + GetText() : string        |
++-----------------------------+
+
+PROGRAM FLOW
+Main()
+1. Create 3-4 Video objects with title, author, and length.
+2. For each Video, add 3-4 Comment objects.
+3. Put all Video objects in a List<Video>.
+4. For each Video in the list:
+   - Display title, author, length, and number of comments.
+   - Display each comment's commenter name and text.
+5. End program.
+
+DESIGN NOTES
+- Video hides its internal comment list and exposes behavior through methods.
+- This demonstrates abstraction by focusing on what a Video can do rather than exposing internal storage.

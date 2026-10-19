@@ -1,0 +1,114 @@
+
+
+CLASSES AND RESPONSIBILITIES
+- Product: Tracks name, product ID, price per unit, and quantity. Calculates total product cost.
+- Address: Tracks street, city, state/province, and country. Determines if address is in USA. Returns formatted address.
+- Customer: Tracks name and Address. Determines if customer lives in USA by using Address.
+- Order: Tracks a list of Products and a Customer. Calculates total cost, packing label, and shipping label.
+- Program: Creates at least two orders with 2-3 products each, then displays labels and totals.
+
+MEMBER VARIABLES - all private
+Product:
+- _name : string
+- _productId : string
+- _pricePerUnit : double
+- _quantity : int
+
+Address:
+- _street : string
+- _city : string
+- _state : string
+- _country : string
+
+Customer:
+- _name : string
+- _address : Address
+
+Order:
+- _products : List<Product>
+- _customer : Customer
+
+METHODS
+Product:
+- Product(string name, string productId, double pricePerUnit, int quantity)
+- string GetName()
+- string GetProductId()
+- double GetPricePerUnit()
+- int GetQuantity()
+- double GetTotalCost()  // _pricePerUnit * _quantity
+
+Address:
+- Address(string street, string city, string state, string country)
+- string GetStreet()
+- string GetCity()
+- string GetState()
+- string GetCountry()
+- bool IsInUSA()  // _country.ToUpper() == "USA"
+- string GetFullAddress()  // multi-line string
+
+Customer:
+- Customer(string name, Address address)
+- string GetName()
+- Address GetAddress()
+- bool IsInUSA()  // calls _address.IsInUSA()
+
+Order:
+- Order(Customer customer)
+- void AddProduct(Product product)
+- List<Product> GetProducts()
+- Customer GetCustomer()
+- double GetTotalCost()  // sum of product totals + shipping: $5 USA, $35 non-USA
+- string GetPackingLabel()  // product name and product ID for each product
+- string GetShippingLabel() // customer name and full address
+
+Program:
+- static void Main()
+
+CLASS DIAGRAM
++------------------+        +-------------------+
+|     Product      |        |      Address      |
++------------------+        +-------------------+
+| - _name          |        | - _street         |
+| - _productId     |        | - _city           |
+| - _pricePerUnit  |        | - _state          |
+| - _quantity      |        | - _country        |
++------------------+        +-------------------+
+| + GetName()      |        | + GetFullAddress()|
+| + GetProductId() |        | + IsInUSA() : bool|
+| + GetPricePerUnit|        +---------+---------+
+| + GetQuantity()  |                  | 1
+| + GetTotalCost() |                  |
++--------+---------+        +---------v---------+
+         | 1..*             |     Customer      |
+         |                  +-------------------+
++--------v---------+        | - _name : string  |
+|      Order       |        | - _address        |
++------------------+        +-------------------+
+| - _products      |        | + GetName()       |
+| - _customer      |<-------+ + GetAddress()    |
++------------------+   1    | + IsInUSA()       |
+| + AddProduct()   |        +-------------------+
+| + GetTotalCost() |
+| + GetPackingLabel|
+| + GetShippingLbl |
++------------------+
+
+PROGRAM FLOW
+Main()
+1. Create a USA Address and Customer.
+2. Create Order 1 for that Customer.
+3. Add 2-3 Products to Order 1.
+4. Create a non-USA Address and Customer.
+5. Create Order 2 for that Customer.
+6. Add 2-3 Products to Order 2.
+7. For each Order:
+   - Display packing label.
+   - Display shipping label.
+   - Display total cost.
+8. End program.
+
+DESIGN NOTES
+- All member variables are private.
+- Customer does not check country directly; it delegates to Address.
+- Order calculates shipping internally based on Customer.IsInUSA().
+- This demonstrates encapsulation by keeping data private and exposing controlled behavior.

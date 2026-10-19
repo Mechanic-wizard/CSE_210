@@ -1,0 +1,120 @@
+
+
+CLASSES AND RESPONSIBILITIES
+- Event: Base class. Tracks title, description, date, time, and Address. Produces standard details, short description, and virtual full details.
+- Lecture: Derived from Event. Adds speaker name and capacity. Overrides full details.
+- Reception: Derived from Event. Adds RSVP email. Overrides full details.
+- OutdoorGathering: Derived from Event. Adds weather forecast. Overrides full details.
+- Address: Tracks street, city, state/province, and country. Returns formatted address and USA check.
+- Program: Creates one event of each type, sets values, and displays all three marketing messages.
+
+MEMBER VARIABLES - all private/protected as needed
+Event:
+- _title : string
+- _description : string
+- _date : string
+- _time : string
+- _address : Address
+
+Lecture:
+- _speakerName : string
+- _capacity : int
+
+Reception:
+- _rsvpEmail : string
+
+OutdoorGathering:
+- _weatherForecast : string
+
+Address:
+- _street : string
+- _city : string
+- _state : string
+- _country : string
+
+METHODS
+Event:
+- Event(string title, string description, string date, string time, Address address)
+- string GetTitle()
+- string GetDescription()
+- string GetDate()
+- string GetTime()
+- Address GetAddress()
+- string GetStandardDetails()  // title, description, date, time, address
+- virtual string GetFullDetails()  // standard details plus type-specific info
+- string GetShortDescription()  // event type, title, date
+
+Lecture:
+- Lecture(...) : base(...)
+- void SetSpeakerName(string speakerName)
+- string GetSpeakerName()
+- void SetCapacity(int capacity)
+- int GetCapacity()
+- override string GetFullDetails()
+
+Reception:
+- Reception(...) : base(...)
+- void SetRsvpEmail(string rsvpEmail)
+- string GetRsvpEmail()
+- override string GetFullDetails()
+
+OutdoorGathering:
+- OutdoorGathering(...) : base(...)
+- void SetWeatherForecast(string weatherForecast)
+- string GetWeatherForecast()
+- override string GetFullDetails()
+
+Address:
+- Address(string street, string city, string state, string country)
+- string GetFullAddress()
+- bool IsInUSA()
+
+Program:
+- static void Main()
+
+CLASS DIAGRAM
+                +--------------------------+
+                |          Event           |
+                +--------------------------+
+                | # _title : string        |
+                | # _description : string  |
+                | # _date : string         |
+                | # _time : string         |
+                | # _address : Address     |
+                +--------------------------+
+                | + GetStandardDetails()   |
+                | + virtual GetFullDetails()|
+                | + GetShortDescription()  |
+                +------------+-------------+
+                             |
+        +--------------------+--------------------+
+        |                    |                    |
++-------v--------+  +--------v--------+  +--------v-------------+
+|    Lecture     |  |    Reception    |  |  OutdoorGathering    |
++----------------+  +-----------------+  +----------------------+
+| - _speakerName |  | - _rsvpEmail    |  | - _weatherForecast   |
+| - _capacity    |  +-----------------+  +----------------------+
++----------------+  | + GetFullDetails|  | + GetFullDetails()   |
+| + GetFullDetails| |   () override   |  |   override           |
+|   () override  |  +-----------------+  +----------------------+
++----------------+
+
+Address is composed into Event.
+
+PROGRAM FLOW
+Main()
+1. Create Address objects for each event.
+2. Create one Lecture, set speaker name and capacity.
+3. Create one Reception, set RSVP email.
+4. Create one OutdoorGathering, set weather forecast.
+5. For each Event:
+   - Display GetStandardDetails().
+   - Display GetFullDetails() using virtual dispatch.
+   - Display GetShortDescription().
+6. End program.
+
+DESIGN NOTES
+- Shared data and methods are in Event to avoid duplication.
+- Derived classes add only their specific data and override GetFullDetails().
+- Address is a separate class used by Event.
+- All member variables are private/protected; behavior is exposed through methods.
